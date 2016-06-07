@@ -18,30 +18,19 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #define DIM 4
-int Win(int *);
-int Giocabile(int mat[DIM][DIM], int);
-void Print(int mat[DIM][DIM]);
-void Replace(int mat[DIM][DIM], int);
-void Genesis(int *p);
 
-int main(){
-  int scelta, count=0, mat[DIM][DIM];//={{1,2,3,4},{5,6,7,8},{9,10,15,11},{13,14,16,12}};//test vittoria
-  Genesis(mat);
-  do{
-    Print(mat);
-    do{
-      printf("Inserisci il numero che vuoi spostare: ");
-      scanf("%d", &scelta);
-    }while(!Giocabile(mat, scelta));
-    count++;
-    Replace(mat, scelta);
-  }while(!Win(mat));
-  printf("\n   You Win!\n");
-  Print(mat);
-  printf("\nHai completato il puzzle in %d mosse.", count);
-}
+typedef struct Score{
+  char *nome;
+  int score;
+  struct Score *next;
+}Score;
+
+int mat[DIM][DIM]={{1,2,3,4},{5,6,7,8},{9,10,15,11},{13,14,16,12}};
+Score *HEAD=NULL;
 
 int Win(int *p){
   int i, ordinata=1;
@@ -52,7 +41,7 @@ int Win(int *p){
   return(ordinata);
 }
 
-void Print(int mat[DIM][DIM]){
+void Print(){
   int i, j;
   for(i=0;i<DIM;i++){
     for(j=0;j<DIM;j++){
@@ -65,7 +54,7 @@ void Print(int mat[DIM][DIM]){
   }
 }
 
-int Giocabile(int mat[DIM][DIM], int scelta){
+int Giocabile(int scelta){
   int vet[DIM], giocabile=0, i, j;
   vet[0]=0;
   for(i=0;i<DIM && vet[0]==0;i++){
@@ -83,7 +72,7 @@ int Giocabile(int mat[DIM][DIM], int scelta){
   return(giocabile);
 }
 
-void Replace(int mat[DIM][DIM], int scelta){
+void Replace(int scelta){
   int i, j, a_i, a_j, b_i, b_j;
   for(i=0;i<DIM;i++){
     for(j=0;j<DIM;j++){
@@ -112,5 +101,60 @@ void Genesis(int *p){
           ok=0;
       }
     }while(!ok);
+  }
+}
+
+void LinkLeaderboard(Score *New){
+  Score *cur=HEAD, *pre=NULL;
+
+  while(cur && cur->score<=New->score){
+    pre=cur;
+    cur=cur->next;
+  }
+
+  if(!pre){
+    New->next=HEAD;
+    HEAD=New;
+  }else{
+    New->next=cur;
+    pre->next=New;
+  }
+}
+
+void AddLeaderboard(char *nome, int score){
+  Score *New=(Score *)malloc(sizeof(Score));
+  New->nome=(char *)calloc(strlen(nome)+1, sizeof(char));
+  strcpy(New->nome, nome);
+  New->score=score;
+
+  LinkLeaderboard(New);
+}
+
+void PrintLeaderboard(){
+  Score *cur=HEAD;
+  int n=1;
+
+  while(cur){
+    printf("%d. %s  %d\n", n++, cur->nome, cur->score);
+    cur=cur->next;
+  }
+}
+
+void ReadLeaderboard(FILE *src){
+  char nome[200];
+  int score;
+
+  while(fscanf(src, "%s", nome) !=EOF){
+    fscanf(src, "%d", &score);
+    AddLeaderboard(nome, score);
+  }
+}
+
+void SaveLeaderboard(FILE *src){
+  Score *cur=HEAD;
+
+  while(cur){
+    fprintf(src, "%s %d\n", cur->nome, cur->score);
+    cur=cur->next;
   }
 }
