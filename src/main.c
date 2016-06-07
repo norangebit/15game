@@ -60,6 +60,7 @@ int main(){
 
   src=fopen("../Leaderboard.dat", "w");
   SaveLeaderboard(src);
+  fclose(src);
 
   __fpurge(stdin);
   getchar();
