@@ -109,11 +109,11 @@ void Genesis(int *p){
             ok=0;
 
       }while(!ok);
-
-      mat[3][3]=16;
-      X.i=3;
-      X.j=3;
     }
+
+    mat[3][3]=16;
+    X.i=3;
+    X.j=3;
 
     for(i=0;i<DIM*DIM-1;i++)
       for(j=i+1;j<DIM*DIM;j++)
