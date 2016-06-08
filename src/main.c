@@ -30,15 +30,15 @@ int main(){
     fclose(src);
     src=fopen("../Leaderboard.dat", "r");
   }
-
   ReadLeaderboard(src);
   fclose(src);
+  
 
   printf("Inserisci il tuo nome: ");
   scanf("%s", nome);
   printf("Benvenuto %s\n\n", nome);
 
-  //Genesis(mat);
+  Genesis(mat);
 
   do{
     Print();

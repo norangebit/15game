@@ -29,12 +29,19 @@ typedef struct Score{
   struct Score *next;
 }Score;
 
-int mat[DIM][DIM]={{1,2,3,4},{5,6,7,8},{9,10,15,11},{13,14,16,12}};
-Score *HEAD=NULL;
+typedef struct Point{
+  int i;//Riga
+  int j;//Colonna
+}Point;
+
+int mat[DIM][DIM];//Matrice di gioco
+Point X;//Posizione dello spazio vuoto
+Point S;//Posizione della scelta
+Score *HEAD=NULL;//Testa della Leaderboard
 
 int Win(int *p){
   int i, ordinata=1;
-  for(i=0;i<DIM*DIM-1;i++){
+  for(i=0;i<DIM*DIM-1 && ordinata;i++){
     if(*(p++)>*(p))
       ordinata=0;
   }
@@ -55,53 +62,65 @@ void Print(){
 }
 
 int Giocabile(int scelta){
-  int vet[DIM], giocabile=0, i, j;
-  vet[0]=0;
-  for(i=0;i<DIM && vet[0]==0;i++){
-    for(j=0;j<DIM;j++){
-      if(mat[i][j]==16){
-        vet[0]=mat[i-1][j];
-        vet[1]=mat[i+1][j];
-        vet[2]=mat[i][j-1];
-        vet[3]=mat[i][j+1];
-      }
+  int giocabile=0, k;
+  Point vet[DIM];
+
+  vet[0].i=X.i-1;
+  vet[0].j=X.j;
+
+  vet[1].i=X.i+1;
+  vet[1].j=X.j;
+
+  vet[2].i=X.i;
+  vet[2].j=X.j-1;
+
+  vet[3].i=X.i;
+  vet[3].j=X.j+1;
+
+  for(k=0;k<DIM;k++)
+    if(mat[vet[k].i][vet[k].j]==scelta){
+      S.i=vet[k].i;
+      S.j=vet[k].j;
+      giocabile=1;
     }
-  }
-  if(vet[0]==scelta || vet[1]==scelta || vet[2]==scelta || vet[3]==scelta)
-    giocabile=1;
   return(giocabile);
 }
 
 void Replace(int scelta){
-  int i, j, a_i, a_j, b_i, b_j;
-  for(i=0;i<DIM;i++){
-    for(j=0;j<DIM;j++){
-      if(mat[i][j]==16){
-        a_i=i;
-        a_j=j;
-      }
-      if(mat[i][j]==scelta){
-        b_i=i;
-        b_j=j;
-      }
-    }
-  }
-  mat[a_i][a_j]=scelta;
-  mat[b_i][b_j]=16;
+  mat[X.i][X.j]=scelta;
+  mat[S.i][S.j]=16;
+  X.i=S.i;
+  X.j=S.j;
 }
 
 void Genesis(int *p){
-  int i, j, ok;
-  for(i=0;i<DIM*DIM;i++){
-    do{
-      ok=1;
-      *(p+i)=rand()%16+1;
-      for(j=0;j<i && ok==1;j++){
-        if(*(p+i)==*(p+j))
-          ok=0;
-      }
-    }while(!ok);
-  }
+  int i, j, ok, parity;
+
+  srand(time(NULL));
+
+  do{
+    parity=0;
+    for(i=0;i<DIM*DIM-1;i++){
+      do{
+        ok=1;
+        *(p+i)=rand()%15+1;
+        for(j=0;j<i && ok==1;j++)
+          if(*(p+i)==*(p+j))
+            ok=0;
+
+      }while(!ok);
+
+      mat[3][3]=16;
+      X.i=3;
+      X.j=3;
+    }
+
+    for(i=0;i<DIM*DIM-1;i++)
+      for(j=i+1;j<DIM*DIM;j++)
+        if(*(p+i)>*(p+j))
+          parity++;
+
+  }while(parity%2);
 }
 
 void LinkLeaderboard(Score *New){
@@ -134,6 +153,7 @@ void PrintLeaderboard(){
   Score *cur=HEAD;
   int n=1;
 
+  printf("\n  ---Leaderboard---\n\n");
   while(cur){
     printf("%d. %s  %d\n", n++, cur->nome, cur->score);
     cur=cur->next;
