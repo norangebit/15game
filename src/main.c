@@ -32,7 +32,7 @@ int main(){
   }
   ReadLeaderboard(src);
   fclose(src);
-  
+
 
   printf("Inserisci il tuo nome: ");
   scanf("%s", nome);
@@ -46,7 +46,7 @@ int main(){
     do{
       printf("Inserisci il numero che vuoi spostare: ");
       scanf("%d", &scelta);
-    }while(!Giocabile(scelta));
+    }while(!Playable(scelta));
 
     count++;
     Replace(scelta);

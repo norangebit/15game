@@ -30,14 +30,14 @@ typedef struct Score{
 }Score;
 
 typedef struct Point{
-  int i;//Riga
-  int j;//Colonna
+  int i;//Row
+  int j;//Column
 }Point;
 
-int mat[DIM][DIM];//Matrice di gioco
-Point X;//Posizione dello spazio vuoto
-Point S;//Posizione della scelta
-Score *HEAD=NULL;//Testa della Leaderboard
+int mat[DIM][DIM];//Matrix of the game
+Point X;//Position of empty blank
+Point S;//Position of choice
+Score *HEAD=NULL;//Head of Leaderboard
 
 int Win(int *p){
   int i, ordinata=1;
@@ -61,7 +61,7 @@ void Print(){
   }
 }
 
-int Giocabile(int scelta){
+int Playable(int scelta){
   int giocabile=0, k;
   Point vet[DIM];
 
@@ -87,6 +87,8 @@ int Giocabile(int scelta){
 }
 
 void Replace(int scelta){
+
+  //Swap position of choice and blank
   mat[X.i][X.j]=scelta;
   mat[S.i][S.j]=16;
   X.i=S.i;
@@ -100,25 +102,31 @@ void Genesis(int *p){
 
   do{
     parity=0;
-    for(i=0;i<DIM*DIM-1;i++){
+    for(i=0;i<DIM*DIM;i++){
       do{
         ok=1;
-        *(p+i)=rand()%15+1;
+        *(p+i)=rand()%16+1;
+
+        //Check uniqueness
         for(j=0;j<i && ok==1;j++)
           if(*(p+i)==*(p+j))
             ok=0;
 
       }while(!ok);
+
+      if(*(p+i)==16){
+
+          X.i=i/DIM;
+          X.j=i%DIM;
+        }
     }
 
-    mat[3][3]=16;
-    X.i=3;
-    X.j=3;
-
+    //Check solvability
     for(i=0;i<DIM*DIM-1;i++)
       for(j=i+1;j<DIM*DIM;j++)
         if(*(p+i)>*(p+j))
           parity++;
+    parity+=X.i+X.j;
 
   }while(parity%2);
 }

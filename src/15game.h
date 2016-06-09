@@ -19,32 +19,32 @@
 
 #include "15game.c"
 
-//Restituisce 1 se la matrice è ordinata, altrimenti 0
+//It returns 1 if the matrix is sorted, otherwise 0
 int Win(int *p);
 
-//Restituisce 1 se la scelta dell'utente è accettabile
-int Giocabile(int scelta);
+//It returns 1 if the user's choice is acceptable, otherwise 0
+int Playable(int scelta);
 
-//Stampa la matrice
+//Print the matrix
 void Print();
 
-//Aggiorna i valori della matrice
+//Updates the values ​​of the matrix
 void Replace(int scelta);
 
-//Genera una matrice casuale
+//Generates a random matrix
 void Genesis(int *p);
 
-//Crea una nuova voce nella leaderboard
+//Create a new entry in the leaderboard
 void AddLeaderboard(char *nome, int score);
 
-//Inserisce in modo ordinato un nuovo score nella leaderboard
+//It fits neatly into a new score leaderboard
 void LinkLeaderboard(Score *New);
 
-//Stampa la Leaderboard
+//Print the Leaderboard
 void PrintLeaderboard();
 
-//Legge da file la leaderboard
+//It reads from file the leaderboard
 void ReadLeaderboard(FILE *src);
 
-//Salva su file la leaderboard
+//Save to file the leaderboard
 void SaveLeaderboard(FILE *src);

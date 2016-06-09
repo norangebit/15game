@@ -1,6 +1,6 @@
 # 15game
 
-Semplice versione in C del famosissimo gioco di logica.
+Simple C version of the famous logic puzzle.
 
 ## Changelog
 
@@ -15,7 +15,7 @@ Semplice versione in C del famosissimo gioco di logica.
 
 - **Alpha 0.3**
 
-  - Rewrite Giocabile() and Replace()
+  - Rewrite Playable() and Replace()
 
     - Now the code is faster
 
@@ -23,10 +23,19 @@ Semplice versione in C del famosissimo gioco di logica.
 
     - Now the puzzle is ever solvability
 
-    - Now the blank is ever on the last cell(Fix soon)
+<<<<<<< HEAD
+
+```
+- Now the blank is ever on the last cell~(Fix soon)~
+```
+
+- **Alpha 0.3.1**
+
+  - Now the documentation is international
+  - # Now the position of blank is random
 
 ## License
 
-- Questo documento, come tutta la documentazione è rilasciato secondo i termini della licenza _Creative Commons_ [**BY-SA 3.0**](http://creativecommons.org/licenses/by-sa/3.0/it/deed.it).
+- This document, as all documentation is released under the terms of the license _Creative Commons_ [**BY-SA 3.0**](http://creativecommons.org/licenses/by-sa/3.0/it/deed.it).
 
-- Il codice sorgente e gli eseguibili ad esso collegati sono rilasciati secondo i termini della _GNU_ **GPL v3**.
+- The source code and executables linked to it are released under the terms of the _GNU_ [**GPL v3**](http://www.gnu.org/licenses/gpl-3.0.html).
