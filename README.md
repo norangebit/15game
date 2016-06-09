@@ -30,6 +30,10 @@ Simple C version of the famous logic puzzle.
   - Now the documentation is international
   - Now the position of blank is random
 
+- **Alpha 0.3.2**
+
+  - Fix and close #2
+
 ## License
 
 - This document, as all documentation is released under the terms of the license _Creative Commons_ [**BY-SA 3.0**](http://creativecommons.org/licenses/by-sa/3.0/it/deed.it).
