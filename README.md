@@ -23,7 +23,7 @@ Semplice versione in C del famosissimo gioco di logica.
 
     - Now the puzzle is ever solvability
 
-    - Now the blank is ever on the last cell
+    - Now the blank is ever on the last cell(Fix soon)
 
 ## License
 
