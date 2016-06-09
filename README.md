@@ -34,6 +34,13 @@ Simple C version of the famous logic puzzle.
 
   - Fix and close [#2](https://github.com/OrangeDugongo/15game/issues/2)
 
+- **Alpha 0.3.3**
+
+  - Changed Genesis and Win
+
+    - Now the code is clearer
+    - Fix and removed the warning messages
+
 ## License
 
 - This document, as all documentation is released under the terms of the license _Creative Commons_ [**BY-SA 3.0**](http://creativecommons.org/licenses/by-sa/3.0/it/deed.it).

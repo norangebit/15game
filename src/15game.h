@@ -20,7 +20,7 @@
 #include "15game.c"
 
 //It returns 1 if the matrix is sorted, otherwise 0
-int Win(int *p);
+int Win();
 
 //It returns 1 if the user's choice is acceptable, otherwise 0
 int Playable(int scelta);
@@ -32,7 +32,7 @@ void Print();
 void Replace(int scelta);
 
 //Generates a random matrix
-void Genesis(int *p);
+void Genesis();
 
 //Create a new entry in the leaderboard
 void AddLeaderboard(char *nome, int score);

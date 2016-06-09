@@ -39,10 +39,10 @@ Point X;//Position of empty blank
 Point S;//Position of choice
 Score *HEAD=NULL;//Head of Leaderboard
 
-int Win(int *p){
+int Win(){
   int i, ordinata=1;
   for(i=0;i<DIM*DIM-1 && ordinata;i++){
-    if(*(p++)>*(p))
+    if(mat[i/DIM][i%DIM]>mat[(i+1)/DIM][(i+1)%DIM])
       ordinata=0;
   }
   return(ordinata);
@@ -109,36 +109,37 @@ void Replace(int scelta){
   X.j=S.j;
 }
 
-void Genesis(int *p){
-  int i, j, ok, parity;
+void Genesis(){
+  int k, z, i, j, ok, parity;
 
   srand(time(NULL));
 
   do{
     parity=0;
-    for(i=0;i<DIM*DIM;i++){
+    for(k=0;k<DIM*DIM;k++){
+      i=k/DIM;
+      j=k%DIM;
       do{
         ok=1;
-        *(p+i)=rand()%16+1;
+        mat[i][j]=rand()%16+1;
 
         //Check uniqueness
-        for(j=0;j<i && ok==1;j++)
-          if(*(p+i)==*(p+j))
+        for(z=0;z<k && ok==1;z++)
+          if(mat[i][j]==mat[z/DIM][z%DIM])
             ok=0;
 
       }while(!ok);
 
-      if(*(p+i)==16){
-
-          X.i=i/DIM;
-          X.j=i%DIM;
+      if(mat[i][j]==16){
+          X.i=i;
+          X.j=j;
         }
     }
 
     //Check solvability
-    for(i=0;i<DIM*DIM-1;i++)
-      for(j=i+1;j<DIM*DIM;j++)
-        if(*(p+i)>*(p+j))
+    for(k=0;k<DIM*DIM-1;k++)
+      for(z=k+1;z<DIM*DIM;z++)
+        if(mat[k/DIM][k%DIM]>mat[z/DIM][z%DIM])
           parity++;
     parity+=X.i+X.j;
 
