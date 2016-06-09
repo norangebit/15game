@@ -38,7 +38,7 @@ int main(){
   scanf("%s", nome);
   printf("Benvenuto %s\n\n", nome);
 
-  Genesis(mat);
+  Genesis();
 
   do{
     Print();
@@ -49,9 +49,12 @@ int main(){
     }while(!Playable(scelta));
 
     count++;
-    Replace(scelta);
+    if(!scelta)
+      Shuffle();
+    else
+      Replace();
 
-  }while(!Win(mat));
+  }while(!Win());
 
   printf("\n   You Win!\n");
   printf("\nHai completato il puzzle in %d mosse.\n", count);

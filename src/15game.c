@@ -107,7 +107,6 @@ void Shuffle(){
         S.j = X.j==DIM-1?DIM-1:X.i+1;
 
     }while(!Playable(mat[S.i][S.j]));
-    printf("\n%d\n", mat[S.i][S.j]);
     Replace();
   }
 }

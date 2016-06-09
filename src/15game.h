@@ -29,10 +29,13 @@ int Playable(int scelta);
 void Print();
 
 //Updates the values ​​of the matrix
-void Replace(int scelta);
+void Replace();
 
 //Generates a random matrix
 void Genesis();
+
+//Make between 30 and 20 random moves
+void Shuffle();
 
 //Create a new entry in the leaderboard
 void AddLeaderboard(char *nome, int score);

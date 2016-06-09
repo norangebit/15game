@@ -41,6 +41,16 @@ Simple C version of the famous logic puzzle.
     - Now the code is clearer
     - Fix and removed the warning messages
 
+- **Alpha 0.4**
+
+  - Rewrite Playable(**Thanks to [0x000](https://github.com/0x000) for the help**)
+
+    - Now it is more compact and clear
+
+  - Add Shuffle
+
+    - Now if you choose 0 the software shuffle the matrix
+
 ## License
 
 - This document, as all documentation is released under the terms of the license _Creative Commons_ [**BY-SA 3.0**](http://creativecommons.org/licenses/by-sa/3.0/it/deed.it).
