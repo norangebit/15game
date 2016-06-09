@@ -32,7 +32,7 @@ Simple C version of the famous logic puzzle.
 
 - **Alpha 0.3.2**
 
-  - Fix and close #2
+  - Fix and close [#2](https://github.com/OrangeDugongo/15game/issues/2)
 
 ## License
 
