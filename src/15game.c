@@ -62,51 +62,54 @@ void Print(){
 }
 
 int Playable(int scelta){
-  int giocabile=0, k;
-  Point vet[DIM];
+  int k;
 
-  for(k=0;k<DIM;k++){
-    vet[k].i=X.i;
-    vet[k].j=X.j;
-  }
+  if(!scelta)
+    return 1;
 
-  if(X.i){
-    vet[0].i=X.i-1;
-    vet[0].j=X.j;
-  }
-
-  if(X.i!=3){
-    vet[1].i=X.i+1;
-    vet[1].j=X.j;
-  }
-
-  if(X.j){
-    vet[2].i=X.i;
-    vet[2].j=X.j-1;
-  }
-
-  if(X.j!=3){
-    vet[3].i=X.i;
-    vet[3].j=X.j+1;
-  }
-
-  for(k=0;k<DIM;k++)
-    if(mat[vet[k].i][vet[k].j]==scelta){
-      S.i=vet[k].i;
-      S.j=vet[k].j;
-      giocabile=1;
+  for(k=0;k<DIM*DIM;k++)
+    if(mat[k/DIM][k%DIM]==scelta){
+      S.i=k/DIM;
+      S.j=k%DIM;
     }
 
-  return(giocabile);
+  if(abs(X.i-S.i)+abs(X.j-S.j)!=1)
+    return 0;
+
+  return 1;
 }
 
-void Replace(int scelta){
+void Replace(){
 
   //Swap position of choice and blank
-  mat[X.i][X.j]=scelta;
+  mat[X.i][X.j]=mat[S.i][S.j];
   mat[S.i][S.j]=16;
   X.i=S.i;
   X.j=S.j;
+}
+
+void Shuffle(){
+  int i, move;
+  int n=rand()%30+20;
+
+  for(i=0;i<n;i++){
+    do{
+
+      move=rand()%DIM;
+      S=X;
+      if(!move)
+        S.i = X.i==0?0:X.i-1;
+      else if(move==1)
+        S.i = X.i==DIM-1?DIM-1:X.i+1;
+      else if(move==2)
+        S.j = X.j==0?0:X.j-1;
+      else
+        S.j = X.j==DIM-1?DIM-1:X.i+1;
+
+    }while(!Playable(mat[S.i][S.j]));
+    printf("\n%d\n", mat[S.i][S.j]);
+    Replace();
+  }
 }
 
 void Genesis(){
