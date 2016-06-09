@@ -23,16 +23,12 @@ Simple C version of the famous logic puzzle.
 
     - Now the puzzle is ever solvability
 
-<<<<<<< HEAD
-
-```
-- Now the blank is ever on the last cell~(Fix soon)~
-```
+    - Now the blank is ever on the last cell~~(Fix soon)~~
 
 - **Alpha 0.3.1**
 
   - Now the documentation is international
-  - # Now the position of blank is random
+  - Now the position of blank is random
 
 ## License
 
