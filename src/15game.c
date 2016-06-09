@@ -65,17 +65,30 @@ int Playable(int scelta){
   int giocabile=0, k;
   Point vet[DIM];
 
-  vet[0].i=X.i-1;
-  vet[0].j=X.j;
+  for(k=0;k<DIM;k++){
+    vet[k].i=X.i;
+    vet[k].j=X.j;
+  }
 
-  vet[1].i=X.i+1;
-  vet[1].j=X.j;
+  if(X.i){
+    vet[0].i=X.i-1;
+    vet[0].j=X.j;
+  }
 
-  vet[2].i=X.i;
-  vet[2].j=X.j-1;
+  if(X.i!=3){
+    vet[1].i=X.i+1;
+    vet[1].j=X.j;
+  }
 
-  vet[3].i=X.i;
-  vet[3].j=X.j+1;
+  if(X.j){
+    vet[2].i=X.i;
+    vet[2].j=X.j-1;
+  }
+
+  if(X.j!=3){
+    vet[3].i=X.i;
+    vet[3].j=X.j+1;
+  }
 
   for(k=0;k<DIM;k++)
     if(mat[vet[k].i][vet[k].j]==scelta){
@@ -83,6 +96,7 @@ int Playable(int scelta){
       S.j=vet[k].j;
       giocabile=1;
     }
+
   return(giocabile);
 }
 
