@@ -51,6 +51,13 @@ Simple C version of the famous logic puzzle.
 
     - Now if you choose 0 the software shuffle the matrix
 
+- **Beta 1.0**
+
+  - Renamed some variables
+  - Fix Replace
+  - Added some comments
+  - name is dynamically allocated
+
 ## License
 
 - This document, as all documentation is released under the terms of the license _Creative Commons_ [**BY-SA 3.0**](http://creativecommons.org/licenses/by-sa/3.0/it/deed.it).

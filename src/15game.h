@@ -23,7 +23,7 @@
 int Win();
 
 //It returns 1 if the user's choice is acceptable, otherwise 0
-int Playable(int scelta);
+int Playable(int userSelection);
 
 //Print the matrix
 void Print();
@@ -34,11 +34,11 @@ void Replace();
 //Generates a random matrix
 void Genesis();
 
-//Make between 30 and 20 random moves
+//Make between 20 and 50 random moves
 void Shuffle();
 
 //Create a new entry in the leaderboard
-void AddLeaderboard(char *nome, int score);
+void AddLeaderboard(char *name, int score);
 
 //It fits neatly into a new score leaderboard
 void LinkLeaderboard(Score *New);

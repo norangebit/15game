@@ -21,8 +21,8 @@
 #include <stdio_ext.h>
 
 int main(){
-  int scelta, count=0;
-  char nome[200];
+  int userSelection, count=0;
+  char *name=(char *)malloc(200*sizeof(char));
   FILE *src=fopen("../Leaderboard.dat", "r");
 
   if(!src){
@@ -34,22 +34,24 @@ int main(){
   fclose(src);
 
 
-  printf("Inserisci il tuo nome: ");
-  scanf("%s", nome);
-  printf("Benvenuto %s\n\n", nome);
+  printf("Insert your name: ");
+  scanf("%s", name);
+  name=(char *)realloc(name, (strlen(name)+1)*sizeof(char));
+  printf("Welcome %s\n\n", name);
 
+  srand(time(NULL));
   Genesis();
 
   do{
     Print();
 
     do{
-      printf("Inserisci il numero che vuoi spostare: ");
-      scanf("%d", &scelta);
-    }while(!Playable(scelta));
+      printf("\nType the number you want to move(0 for shuffle): ");
+      scanf("%d", &userSelection);
+    }while(!Playable(userSelection));
 
     count++;
-    if(!scelta)
+    if(!userSelection)
       Shuffle();
     else
       Replace();
@@ -57,8 +59,8 @@ int main(){
   }while(!Win());
 
   printf("\n   You Win!\n");
-  printf("\nHai completato il puzzle in %d mosse.\n", count);
-  AddLeaderboard(nome, count);
+  printf("\nYou've completed the puzzle in %d moves.\n", count);
+  AddLeaderboard(name, count);
   PrintLeaderboard();
 
   src=fopen("../Leaderboard.dat", "w");

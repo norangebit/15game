@@ -24,7 +24,7 @@
 #define DIM 4
 
 typedef struct Score{
-  char *nome;
+  char *name;
   int score;
   struct Score *next;
 }Score;
@@ -35,45 +35,50 @@ typedef struct Point{
 }Point;
 
 int mat[DIM][DIM];//Matrix of the game
-Point X;//Position of empty blank
-Point S;//Position of choice
+Point blank;//Position of blank
+Point choice;//Position of choice
 Score *HEAD=NULL;//Head of Leaderboard
 
 int Win(){
-  int i, ordinata=1;
-  for(i=0;i<DIM*DIM-1 && ordinata;i++){
+  int i, sorted=1;
+  for(i=0;i<DIM*DIM-1 && sorted;i++){
     if(mat[i/DIM][i%DIM]>mat[(i+1)/DIM][(i+1)%DIM])
-      ordinata=0;
+      sorted=0;
   }
-  return(ordinata);
+  return(sorted);
 }
 
 void Print(){
   int i, j;
-  for(i=0;i<DIM;i++){
-    for(j=0;j<DIM;j++){
-      if(mat[i][j]==16)
-        printf("   ");
-      else
-        printf("%3d", mat[i][j]);
-    }
-    printf("\n");
+  for(i=0;i<DIM*DIM;i++){
+    if(!(i%DIM))
+      putchar('\n');
+
+    if((j=mat[i/DIM][i%DIM])==16)
+      printf("   ");
+    else
+      printf("%3d", j);
   }
+  putchar('\n');
 }
 
-int Playable(int scelta){
+int Playable(int userSelection){
   int k;
 
-  if(!scelta)
+  //Shuffle test
+  if(!userSelection)
     return 1;
 
+  //looking for position of choise
   for(k=0;k<DIM*DIM;k++)
-    if(mat[k/DIM][k%DIM]==scelta){
-      S.i=k/DIM;
-      S.j=k%DIM;
+    if(mat[k/DIM][k%DIM]==userSelection){
+      choice.i=k/DIM;
+      choice.j=k%DIM;
+      break;
     }
 
-  if(abs(X.i-S.i)+abs(X.j-S.j)!=1)
+  //Collision test
+  if(abs(blank.i-choice.i)+abs(blank.j-choice.j)!=1)
     return 0;
 
   return 1;
@@ -82,39 +87,38 @@ int Playable(int scelta){
 void Replace(){
 
   //Swap position of choice and blank
-  mat[X.i][X.j]=mat[S.i][S.j];
-  mat[S.i][S.j]=16;
-  X.i=S.i;
-  X.j=S.j;
+  mat[blank.i][blank.j]=mat[choice.i][choice.j];
+  mat[choice.i][choice.j]=16;
+  blank=choice;
 }
 
 void Shuffle(){
   int i, move;
-  int n=rand()%30+20;
+  int n=rand()%30+20;//number of moves
 
   for(i=0;i<n;i++){
+
     do{
-
       move=rand()%DIM;
-      S=X;
-      if(!move)
-        S.i = X.i==0?0:X.i-1;
-      else if(move==1)
-        S.i = X.i==DIM-1?DIM-1:X.i+1;
-      else if(move==2)
-        S.j = X.j==0?0:X.j-1;
-      else
-        S.j = X.j==DIM-1?DIM-1:X.i+1;
+      choice=blank;
 
-    }while(!Playable(mat[S.i][S.j]));
+      if(!move)//Up shift
+        choice.i = blank.i==0?0:blank.i-1;//check border of matrix
+      else if(move==1)//Down shift
+        choice.i = blank.i==DIM-1?DIM-1:blank.i+1;
+      else if(move==2)//Letf shift
+        choice.j = blank.j==0?0:blank.j-1;
+      else//Right shift
+        choice.j = blank.j==DIM-1?DIM-1:blank.i+1;
+
+    }while(!Playable(mat[choice.i][choice.j]));
+
     Replace();
   }
 }
 
 void Genesis(){
   int k, z, i, j, ok, parity;
-
-  srand(time(NULL));
 
   do{
     parity=0;
@@ -133,8 +137,8 @@ void Genesis(){
       }while(!ok);
 
       if(mat[i][j]==16){
-          X.i=i;
-          X.j=j;
+          blank.i=i;
+          blank.j=j;
         }
     }
 
@@ -143,32 +147,33 @@ void Genesis(){
       for(z=k+1;z<DIM*DIM;z++)
         if(mat[k/DIM][k%DIM]>mat[z/DIM][z%DIM])
           parity++;
-    parity+=X.i+X.j;
+    parity+=blank.i+blank.j;
 
   }while(parity%2);
 }
 
 void LinkLeaderboard(Score *New){
-  Score *cur=HEAD, *pre=NULL;
+  Score *cur=HEAD, *pre=NULL;//current and previous initialization
 
+  //list scrolling
   while(cur && cur->score<=New->score){
     pre=cur;
     cur=cur->next;
   }
 
-  if(!pre){
+  if(!pre){//add in head
     New->next=HEAD;
     HEAD=New;
-  }else{
+  }else{//add in the queue or in the middle
     New->next=cur;
     pre->next=New;
   }
 }
 
-void AddLeaderboard(char *nome, int score){
+void AddLeaderboard(char *name, int score){
   Score *New=(Score *)malloc(sizeof(Score));
-  New->nome=(char *)calloc(strlen(nome)+1, sizeof(char));
-  strcpy(New->nome, nome);
+  New->name=(char *)calloc(strlen(name)+1, sizeof(char));
+  strcpy(New->name, name);
   New->score=score;
 
   LinkLeaderboard(New);
@@ -180,18 +185,18 @@ void PrintLeaderboard(){
 
   printf("\n  ---Leaderboard---\n\n");
   while(cur){
-    printf("%d. %s  %d\n", n++, cur->nome, cur->score);
+    printf("%d. %s  %d\n", n++, cur->name, cur->score);
     cur=cur->next;
   }
 }
 
 void ReadLeaderboard(FILE *src){
-  char nome[200];
+  char name[200];
   int score;
 
-  while(fscanf(src, "%s", nome) !=EOF){
+  while(fscanf(src, "%s", name) !=EOF){
     fscanf(src, "%d", &score);
-    AddLeaderboard(nome, score);
+    AddLeaderboard(name, score);
   }
 }
 
@@ -199,7 +204,7 @@ void SaveLeaderboard(FILE *src){
   Score *cur=HEAD;
 
   while(cur){
-    fprintf(src, "%s %d\n", cur->nome, cur->score);
+    fprintf(src, "%s %d\n", cur->name, cur->score);
     cur=cur->next;
   }
 }
