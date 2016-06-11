@@ -22,8 +22,11 @@
 //It returns 1 if the matrix is sorted, otherwise 0
 int Win();
 
+//Convert string to Point
+Point *Convert(char *userSelection);
+
 //It returns 1 if the user's choice is acceptable, otherwise 0
-int Playable(int userSelection);
+int Playable(Point *userSelection);
 
 //Print the matrix
 void Print();
