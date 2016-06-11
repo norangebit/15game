@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 #define DIM 4
 
 typedef struct Score{
@@ -62,20 +63,41 @@ void Print(){
   putchar('\n');
 }
 
-int Playable(int userSelection){
-  int k;
+Point *Convert(char *userSelection){
+  int intSelection, k;
+
+  if(isdigit(userSelection[0])){//Selection by the numbers
+    intSelection=atoi(userSelection);
+    if(!intSelection)
+      return NULL;
+
+    for(k=0;k<DIM*DIM;k++)
+      if(mat[k/DIM][k%DIM]==intSelection){
+        choice.i=k/DIM;
+        choice.j=k%DIM;
+        break;
+      }
+  }else{//Selection by the letter
+    choice=blank;
+
+    if(userSelection[0]=='k')//Up shift
+      choice.i = blank.i==0?0:blank.i-1;//check border of matrix
+    else if(userSelection[0]=='j')//Down shift
+      choice.i = blank.i==DIM-1?DIM-1:blank.i+1;
+    else if(userSelection[0]=='h')//Letf shift
+      choice.j = blank.j==0?0:blank.j-1;
+    else if(userSelection[0]=='l')//Right shift
+      choice.j = blank.j==DIM-1?DIM-1:blank.j+1;
+  }
+
+  return &choice;
+}
+
+int Playable(Point *userSelection){
 
   //Shuffle test
   if(!userSelection)
     return 1;
-
-  //looking for position of choise
-  for(k=0;k<DIM*DIM;k++)
-    if(mat[k/DIM][k%DIM]==userSelection){
-      choice.i=k/DIM;
-      choice.j=k%DIM;
-      break;
-    }
 
   //Collision test
   if(abs(blank.i-choice.i)+abs(blank.j-choice.j)!=1)
@@ -111,7 +133,7 @@ void Shuffle(){
       else//Right shift
         choice.j = blank.j==DIM-1?DIM-1:blank.j+1;
 
-    }while(!Playable(mat[choice.i][choice.j]));
+    }while(!Playable(&choice));
 
     Replace();
   }

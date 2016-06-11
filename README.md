@@ -62,6 +62,17 @@ Simple C version of the famous logic puzzle.
 
   - Fix bug in Shuffle
 
+- **Beta 1.1**
+
+  - Rewrite Playable
+  - Add function Convert
+
+    - Now if you type a letter the program does not crash
+
+  - Add vim mode
+
+    - Now you can move with the keys h, j, k and l
+
 ## License
 
 - This document, as all documentation is released under the terms of the license _Creative Commons_ [**BY-SA 3.0**](http://creativecommons.org/licenses/by-sa/3.0/it/deed.it).
