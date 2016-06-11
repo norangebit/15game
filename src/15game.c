@@ -66,7 +66,7 @@ void Print(){
 Point *Convert(char *userSelection){
   int intSelection, k;
 
-  if(isdigit(userSelection[0])){
+  if(isdigit(userSelection[0])){//Selection by the numbers
     intSelection=atoi(userSelection);
     if(!intSelection)
       return NULL;
@@ -77,7 +77,7 @@ Point *Convert(char *userSelection){
         choice.j=k%DIM;
         break;
       }
-  }else{
+  }else{//Selection by the letter
     choice=blank;
 
     if(userSelection[0]=='k')//Up shift

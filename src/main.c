@@ -23,8 +23,8 @@
 int main(){
   int count=0;
   char *name=(char *)malloc(200*sizeof(char));
-  char userSelection[2];
-  Point *selection=NULL;
+  char userSelection[2];//capturing user input
+  Point *selection=NULL;//Save position of choice
   FILE *src=fopen("../Leaderboard.dat", "r");
 
   if(!src){
