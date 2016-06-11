@@ -109,7 +109,7 @@ void Shuffle(){
       else if(move==2)//Letf shift
         choice.j = blank.j==0?0:blank.j-1;
       else//Right shift
-        choice.j = blank.j==DIM-1?DIM-1:blank.i+1;
+        choice.j = blank.j==DIM-1?DIM-1:blank.j+1;
 
     }while(!Playable(mat[choice.i][choice.j]));
 

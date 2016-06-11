@@ -58,6 +58,10 @@ Simple C version of the famous logic puzzle.
   - Added some comments
   - name is dynamically allocated
 
+- **Beta 1.0.1**
+
+  - Fix bug in Shuffle
+
 ## License
 
 - This document, as all documentation is released under the terms of the license _Creative Commons_ [**BY-SA 3.0**](http://creativecommons.org/licenses/by-sa/3.0/it/deed.it).
