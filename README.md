@@ -73,6 +73,11 @@ Simple C version of the famous logic puzzle.
 
     - Now you can move with the keys h, j, k and l
 
+- **Beta 1.1.1**
+
+  - Fix and close [#7](https://github.com/OrangeDugongo/15game/issues/7)
+  - Fix and close [#8](https://github.com/OrangeDugongo/15game/issues/8)
+
 ## License
 
 - This document, as all documentation is released under the terms of the license _Creative Commons_ [**BY-SA 3.0**](http://creativecommons.org/licenses/by-sa/3.0/it/deed.it).
