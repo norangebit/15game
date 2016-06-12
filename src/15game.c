@@ -117,7 +117,7 @@ void Replace(Point choice){
 void Shuffle(){
   int i, move;
   Point randomChoice;////Position of random choice
-  int n=rand()%30+20;//number of moves
+  int n=rand()%30+20;//number of random moves
 
   for(i=0;i<n;i++){
 
