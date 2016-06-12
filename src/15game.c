@@ -35,14 +35,14 @@ typedef struct Point{
   int j;//Column
 }Point;
 
-int mat[DIM][DIM];//Matrix of the game
+int mat[DIM*DIM];//Matrix of the game
 Point blank;//Position of blank
 Score *HEAD=NULL;//Head of Leaderboard
 
 int Win(){
   int i, sorted=1;
   for(i=0;i<DIM*DIM-1 && sorted;i++){
-    if(mat[i/DIM][i%DIM]>mat[(i+1)/DIM][(i+1)%DIM])
+    if(mat[i]>mat[i+1])
       sorted=0;
   }
   return(sorted);
@@ -54,7 +54,7 @@ void Print(){
     if(!(i%DIM))
       putchar('\n');
 
-    if((j=mat[i/DIM][i%DIM])==16)
+    if((j=mat[i])==16)
       printf("   ");
     else
       printf("%3d", j);
@@ -72,7 +72,7 @@ void Convert(char *userSelection, Point *choice){
       choice->i=-1;
     else{
       for(k=0;k<DIM*DIM;k++)
-        if(mat[k/DIM][k%DIM]==intSelection){
+        if(mat[k]==intSelection){
           choice->i=k/DIM;
           choice->j=k%DIM;
           break;
@@ -109,8 +109,8 @@ int Playable(Point choice){
 void Replace(Point choice){
 
   //Swap position of choice and blank
-  mat[blank.i][blank.j]=mat[choice.i][choice.j];
-  mat[choice.i][choice.j]=16;
+  mat[blank.i*DIM + blank.j]=mat[choice.i*DIM + choice.j];
+  mat[choice.i*DIM + choice.j]=16;
   blank=choice;
 }
 
@@ -141,34 +141,32 @@ void Shuffle(){
 }
 
 void Genesis(){
-  int k, z, i, j, ok, parity;
+  int k, z, ok, parity;
 
   do{
     parity=0;
     for(k=0;k<DIM*DIM;k++){
-      i=k/DIM;
-      j=k%DIM;
       do{
         ok=1;
-        mat[i][j]=rand()%16+1;
+        mat[k]=rand()%16+1;
 
         //Check uniqueness
         for(z=0;z<k && ok==1;z++)
-          if(mat[i][j]==mat[z/DIM][z%DIM])
+          if(mat[k]==mat[z])
             ok=0;
 
       }while(!ok);
 
-      if(mat[i][j]==16){
-          blank.i=i;
-          blank.j=j;
+      if(mat[k]==16){
+          blank.i=k/4;
+          blank.j=k%4;
         }
     }
 
     //Check solvability
     for(k=0;k<DIM*DIM-1;k++)
       for(z=k+1;z<DIM*DIM;z++)
-        if(mat[k/DIM][k%DIM]>mat[z/DIM][z%DIM])
+        if(mat[k]>mat[z])
           parity++;
     parity+=blank.i+blank.j;
 
