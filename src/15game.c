@@ -140,11 +140,25 @@ void Shuffle(){
   }
 }
 
-void Genesis(){
-  int k, z, ok, parity;
+int ParityChecker(){
+  int k, z, parity=0;
+  for(k=0;k<DIM*DIM-1;k++)
+    for(z=k+1;z<DIM*DIM;z++)
+      if(mat[k]>mat[z])
+        parity++;
+  parity+=blank.i+blank.j;
+  return parity%2;
+}
 
-  do{
-    parity=0;
+void Swap(int *a, int *b){
+  int temp=*a;
+  *a=*b;
+  *b=temp;
+}
+
+void Genesis(){
+  int k, z, ok, count=0;
+
     for(k=0;k<DIM*DIM;k++){
       do{
         ok=1;
@@ -162,15 +176,11 @@ void Genesis(){
           blank.j=k%4;
         }
     }
-
-    //Check solvability
-    for(k=0;k<DIM*DIM-1;k++)
-      for(z=k+1;z<DIM*DIM;z++)
-        if(mat[k]>mat[z])
-          parity++;
-    parity+=blank.i+blank.j;
-
-  }while(parity%2);
+  while(ParityChecker()){
+    Swap(&mat[rand()%16+1], &mat[rand()%16+1]);
+    count++;
+  }
+  printf("\n%d\n", count);
 }
 
 void LinkLeaderboard(Score *New){

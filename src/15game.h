@@ -34,6 +34,12 @@ void Print();
 //Updates the values ​​of the matrix
 void Replace(Point choice);
 
+//
+void Swap(int *a, int *b);
+
+//
+int ParityChecker();
+
 //Generates a random matrix
 void Genesis();
 
