@@ -117,7 +117,7 @@ void Replace(Point choice){
 void Shuffle(){
   int i, move;
   Point randomChoice;////Position of random choice
-  int n=rand()%30+20;//number of random moves
+  int n=rand()%30+20;//Number of random moves
 
   for(i=0;i<n;i++){
 
@@ -142,10 +142,12 @@ void Shuffle(){
 
 int ParityChecker(){
   int k, z, parity=0;
+
   for(k=0;k<DIM*DIM-1;k++)
     for(z=k+1;z<DIM*DIM;z++)
       if(mat[k]>mat[z])
         parity++;
+
   parity+=blank.i+blank.j;
   return parity%2;
 }
@@ -157,7 +159,7 @@ void Swap(int *a, int *b){
 }
 
 void Genesis(){
-  int k, z, ok, count=0;
+  int k, z, ok;
 
     for(k=0;k<DIM*DIM;k++){
       do{
@@ -171,16 +173,14 @@ void Genesis(){
 
       }while(!ok);
 
+      //Assigns the position of the blank
       if(mat[k]==16){
           blank.i=k/4;
           blank.j=k%4;
         }
     }
-  while(ParityChecker()){
+  while(ParityChecker())
     Swap(&mat[rand()%16+1], &mat[rand()%16+1]);
-    count++;
-  }
-  printf("\n%d\n", count);
 }
 
 void LinkLeaderboard(Score *New){
