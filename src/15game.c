@@ -37,7 +37,6 @@ typedef struct Point{
 
 int mat[DIM][DIM];//Matrix of the game
 Point blank;//Position of blank
-Point choice;//Position of choice
 Score *HEAD=NULL;//Head of Leaderboard
 
 int Win(){
@@ -63,40 +62,41 @@ void Print(){
   putchar('\n');
 }
 
-Point *Convert(char *userSelection){
+void Convert(char *userSelection, Point *choice){
   int intSelection, k;
 
   if(isdigit(userSelection[0])){//Selection by the numbers
     intSelection=atoi(userSelection);
-    if(!intSelection)
-      return NULL;
 
-    for(k=0;k<DIM*DIM;k++)
-      if(mat[k/DIM][k%DIM]==intSelection){
-        choice.i=k/DIM;
-        choice.j=k%DIM;
-        break;
-      }
+    if(!intSelection)//For shuffle
+      choice->i=-1;
+    else{
+      for(k=0;k<DIM*DIM;k++)
+        if(mat[k/DIM][k%DIM]==intSelection){
+          choice->i=k/DIM;
+          choice->j=k%DIM;
+          break;
+        }
+    }
+
   }else{//Selection by the letter
-    choice=blank;
+    *choice=blank;
 
     if(userSelection[0]=='k')//Up shift
-      choice.i = blank.i==0?0:blank.i-1;//check border of matrix
+      choice->i = blank.i==0?0:blank.i-1;//check border of matrix
     else if(userSelection[0]=='j')//Down shift
-      choice.i = blank.i==DIM-1?DIM-1:blank.i+1;
+      choice->i = blank.i==DIM-1?DIM-1:blank.i+1;
     else if(userSelection[0]=='h')//Letf shift
-      choice.j = blank.j==0?0:blank.j-1;
+      choice->j = blank.j==0?0:blank.j-1;
     else if(userSelection[0]=='l')//Right shift
-      choice.j = blank.j==DIM-1?DIM-1:blank.j+1;
+      choice->j = blank.j==DIM-1?DIM-1:blank.j+1;
   }
-
-  return &choice;
 }
 
-int Playable(Point *userSelection){
+int Playable(Point choice){
 
   //Shuffle test
-  if(!userSelection)
+  if(choice.i==-1)
     return 1;
 
   //Collision test
@@ -106,7 +106,7 @@ int Playable(Point *userSelection){
   return 1;
 }
 
-void Replace(){
+void Replace(Point choice){
 
   //Swap position of choice and blank
   mat[blank.i][blank.j]=mat[choice.i][choice.j];
@@ -116,26 +116,27 @@ void Replace(){
 
 void Shuffle(){
   int i, move;
+  Point randomChoice;////Position of random choice
   int n=rand()%30+20;//number of moves
 
   for(i=0;i<n;i++){
 
     do{
       move=rand()%DIM;
-      choice=blank;
+      randomChoice=blank;
 
       if(!move)//Up shift
-        choice.i = blank.i==0?0:blank.i-1;//check border of matrix
+        randomChoice.i = blank.i==0?0:blank.i-1;//check border of matrix
       else if(move==1)//Down shift
-        choice.i = blank.i==DIM-1?DIM-1:blank.i+1;
+        randomChoice.i = blank.i==DIM-1?DIM-1:blank.i+1;
       else if(move==2)//Letf shift
-        choice.j = blank.j==0?0:blank.j-1;
+        randomChoice.j = blank.j==0?0:blank.j-1;
       else//Right shift
-        choice.j = blank.j==DIM-1?DIM-1:blank.j+1;
+        randomChoice.j = blank.j==DIM-1?DIM-1:blank.j+1;
 
-    }while(!Playable(&choice));
+    }while(!Playable(randomChoice));
 
-    Replace();
+    Replace(randomChoice);
   }
 }
 

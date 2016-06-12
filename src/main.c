@@ -24,7 +24,7 @@ int main(){
   int count=0;
   char *name=(char *)malloc(200*sizeof(char));
   char userSelection[2];//capturing user input
-  Point *selection=NULL;//Save position of choice
+  Point choice;//Position of user choice
   FILE *src=fopen("../Leaderboard.dat", "r");
 
   if(!src){
@@ -50,14 +50,14 @@ int main(){
     do{
       printf("\nType the number you want to move(0 for shuffle): ");
       scanf("%s", userSelection);
-      selection=Convert(userSelection);
-    }while(!Playable(selection));
+      Convert(userSelection, &choice);
+    }while(!Playable(choice));
 
     count++;
-    if(!selection)
+    if(choice.i==-1)
       Shuffle();
     else
-      Replace();
+      Replace(choice);
 
   }while(!Win());
 

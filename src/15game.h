@@ -23,16 +23,16 @@
 int Win();
 
 //Convert string to Point
-Point *Convert(char *userSelection);
+void Convert(char *userSelection, Point *choice);
 
 //It returns 1 if the user's choice is acceptable, otherwise 0
-int Playable(Point *userSelection);
+int Playable(Point choice);
 
 //Print the matrix
 void Print();
 
 //Updates the values ​​of the matrix
-void Replace();
+void Replace(Point choice);
 
 //Generates a random matrix
 void Genesis();
