@@ -66,6 +66,8 @@ int main(){
 
   }while(!Win());
 
+  SaveCheckpoint(name, count);
+
   printf("\n   You Win!\n");
   printf("\nYou've completed the puzzle in %d moves.\n", count);
   AddLeaderboard(name, count);
