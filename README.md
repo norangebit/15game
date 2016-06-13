@@ -1,4 +1,4 @@
-# 15game - Checkpoint
+# 15game
 
 Simple C version of the famous logic puzzle.
 
