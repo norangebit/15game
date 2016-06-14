@@ -34,18 +34,28 @@ void Print();
 //Updates the values ​​of the matrix
 void Replace(Point choice);
 
-//Swaps position two numbers
-void Swap(int *a, int *b);
-
-//Test solvability of matrix
-int ParityChecker();
-
 //Generates a random matrix
 void Genesis();
 
 //Make between 20 and 50 random moves
 void Shuffle();
 
+
+
+
+
+//CHECKPOINT'S FUNCTION
+//Read from file,It returns 1 if the process has been successful
+ int Restart(char *nome, int *count);
+
+ //Save into file
+ void SaveCheckpoint(char *nome, int count);
+
+
+
+
+
+//LEADERBOARD'S FUNCTION
 //Create a new entry in the leaderboard
 void AddLeaderboard(char *name, int score);
 

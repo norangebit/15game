@@ -25,24 +25,26 @@ int main(){
   char *name=(char *)malloc(200*sizeof(char));
   char userSelection[2];//capturing user input
   Point choice;//Position of user choice
-  FILE *src=fopen("../Leaderboard.dat", "r");
+  FILE *src=fopen("../.Leaderboard.dat", "r");
 
   if(!src){
-    src=fopen("../Leaderboard.dat", "w");
+    src=fopen("../.Leaderboard.dat", "w");
     fclose(src);
-    src=fopen("../Leaderboard.dat", "r");
+    src=fopen("../.Leaderboard.dat", "r");
   }
   ReadLeaderboard(src);
   fclose(src);
 
+  if(Restart(name, &count))
+    printf("Welcome back %s\n\n", name);
+  else{
+    printf("Insert your name: ");
+    scanf("%s", name);
+    name=(char *)realloc(name, (strlen(name)+1)*sizeof(char));
 
-  printf("Insert your name: ");
-  scanf("%s", name);
-  name=(char *)realloc(name, (strlen(name)+1)*sizeof(char));
-  printf("Welcome %s\n\n", name);
-
-  srand(time(NULL));
-  Genesis();
+    srand(time(NULL));
+    Genesis();
+  }
 
   do{
     Print();
@@ -59,14 +61,19 @@ int main(){
     else
       Replace(choice);
 
+    if(!(count%5))
+      SaveCheckpoint(name, count);
+
   }while(!Win());
+
+  SaveCheckpoint(name, count);
 
   printf("\n   You Win!\n");
   printf("\nYou've completed the puzzle in %d moves.\n", count);
   AddLeaderboard(name, count);
   PrintLeaderboard();
 
-  src=fopen("../Leaderboard.dat", "w");
+  src=fopen("../.Leaderboard.dat", "w");
   SaveLeaderboard(src);
   fclose(src);
 
