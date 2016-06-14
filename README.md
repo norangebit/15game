@@ -86,6 +86,11 @@ Simple C version of the famous logic puzzle.
 
     - Now the code is faster
 
+- **Beta 2.0**
+
+  - Add autosave and restart
+  - Now the game picks up where you left off
+
 ## License
 
 - This document, as all documentation is released under the terms of the license _Creative Commons_ [**BY-SA 3.0**](http://creativecommons.org/licenses/by-sa/3.0/it/deed.it).
