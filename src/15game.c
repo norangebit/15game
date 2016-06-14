@@ -54,7 +54,7 @@ void Print(){
     if(!(i%DIM))
       putchar('\n');
 
-    if((j=mat[i])==16)
+    if((j=mat[i])==DIM*DIM)
       printf("   ");
     else
       printf("%3d", j);
@@ -110,7 +110,7 @@ void Replace(Point choice){
 
   //Swap position of choice and blank
   mat[blank.i*DIM + blank.j]=mat[choice.i*DIM + choice.j];
-  mat[choice.i*DIM + choice.j]=16;
+  mat[choice.i*DIM + choice.j]=DIM*DIM;
   blank=choice;
 }
 
@@ -164,7 +164,7 @@ void Genesis(){
     for(k=0;k<DIM*DIM;k++){
       do{
         ok=1;
-        mat[k]=rand()%16+1;
+        mat[k]=rand()%DIM*DIM+1;
 
         //Check uniqueness
         for(z=0;z<k && ok==1;z++)
@@ -174,13 +174,13 @@ void Genesis(){
       }while(!ok);
 
       //Assigns the position of the blank
-      if(mat[k]==16){
-          blank.i=k/4;
-          blank.j=k%4;
+      if(mat[k]==DIM*DIM){
+          blank.i=k/DIM;
+          blank.j=k%DIM;
         }
     }
   while(ParityChecker())
-    Swap(&mat[rand()%16+1], &mat[rand()%16+1]);
+    Swap(&mat[rand()%DIM*DIM], &mat[rand()%DIM*DIM]);
 }
 
 
@@ -204,7 +204,7 @@ void SaveCheckpoint(char *nome, int count){
   //Print matrix
   for(i=0;i<DIM*DIM-1;i++)
     fprintf(dest, "%d ", mat[i]);
-  fprintf(dest, "%d\n", mat[15]);
+  fprintf(dest, "%d\n", mat[DIM*DIM-1]);
 
   //Print blank position
   fprintf(dest, "%d %d", blank.i, blank.j);
