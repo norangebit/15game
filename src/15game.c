@@ -90,13 +90,15 @@ void Convert(char *userSelection, Point *choice){
       choice->j = blank.j==0?0:blank.j-1;
     else if(userSelection[0]=='l')//Right shift
       choice->j = blank.j==DIM-1?DIM-1:blank.j+1;
+    else if(userSelection[0]=='N')//New game
+      choice->i = -2;
   }
 }
 
 int Playable(Point choice){
 
   //Shuffle test
-  if(choice.i==-1)
+  if(choice.i<0)
     return 1;
 
   //Collision test
@@ -181,6 +183,11 @@ void Genesis(){
     }
   while(ParityChecker())
     Swap(&mat[rand()%DIM*DIM], &mat[rand()%DIM*DIM]);
+}
+
+void NewGame(int *count){
+    *count=0;
+    Genesis();
 }
 
 

@@ -40,6 +40,9 @@ void Genesis();
 //Make between 20 and 50 random moves
 void Shuffle();
 
+//New game
+void NewGame(int *count);
+
 
 
 

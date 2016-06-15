@@ -58,6 +58,8 @@ int main(){
     count++;
     if(choice.i==-1)
       Shuffle();
+    else if (choice.i==-2)
+      NewGame(&count);
     else
       Replace(choice);
 
