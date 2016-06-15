@@ -60,10 +60,9 @@ int main(){
       Shuffle();
     else if (choice.i==-2)
       NewGame(&count);
-    else if (choice.i==-3){
-      SaveCheckpoint(name, count);
-      return 0;
-    }else
+    else if (choice.i==-3)
+      Quit(name, count);
+    else
       Replace(choice);
 
     if(!(count%5))

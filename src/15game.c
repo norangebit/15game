@@ -39,6 +39,7 @@ int mat[DIM*DIM];//Matrix of the game
 Point blank;//Position of blank
 Score *HEAD=NULL;//Head of Leaderboard
 
+
 int Win(){
   int i, sorted=1;
   for(i=0;i<DIM*DIM-1 && sorted;i++){
@@ -47,6 +48,60 @@ int Win(){
   }
   return(sorted);
 }
+
+//Checkpoint's function
+void SaveCheckpoint(char *nome, int count){
+  int i;
+  FILE *dest=fopen("../.checkpoint.dat", "w");
+
+  //Print name
+  if(Win())//The game is ended
+    fprintf(dest, "END ");
+  else//The game isn't ended
+    fprintf(dest, "%s ", nome);
+
+  //Print moves made
+  fprintf(dest, "%d\n", count);
+
+  //Print matrix
+  for(i=0;i<DIM*DIM-1;i++)
+    fprintf(dest, "%d ", mat[i]);
+  fprintf(dest, "%d\n", mat[DIM*DIM-1]);
+
+  //Print blank position
+  fprintf(dest, "%d %d", blank.i, blank.j);
+
+  fclose(dest);
+}
+
+ int Restart(char *nome, int *count){
+   FILE *src=fopen("../.checkpoint.dat", "r");
+   int i;
+
+   //the file does not exist
+   if(!src)
+    return 0;
+
+  //read name
+  fscanf(src, "%s", nome);
+
+  //the last game is ended
+  if(!strcmp(nome, "END"))
+    return 0;
+
+  //Read moves made
+  fscanf(src, "%d", count);
+
+  //read matrix
+  for(i=0;i<DIM*DIM;i++)
+    fscanf(src, "%d", &mat[i]);
+
+  //read position of blank
+  fscanf(src, "%d %d", &blank.i, &blank.j);
+
+  return 1;
+ }
+
 
 void Print(){
   int i, j;
@@ -192,64 +247,10 @@ void NewGame(int *count){
     Genesis();
 }
 
-
-
-
-
-//Checkpoint's function
-void SaveCheckpoint(char *nome, int count){
-  int i;
-  FILE *dest=fopen("../.checkpoint.dat", "w");
-
-  //Print name
-  if(Win())//The game is ended
-    fprintf(dest, "END ");
-  else//The game isn't ended
-    fprintf(dest, "%s ", nome);
-
-  //Print moves made
-  fprintf(dest, "%d\n", count);
-
-  //Print matrix
-  for(i=0;i<DIM*DIM-1;i++)
-    fprintf(dest, "%d ", mat[i]);
-  fprintf(dest, "%d\n", mat[DIM*DIM-1]);
-
-  //Print blank position
-  fprintf(dest, "%d %d", blank.i, blank.j);
-
-  fclose(dest);
+void Quit(char *name, int count){
+    SaveCheckpoint(name, count);
+    exit(0);
 }
-
- int Restart(char *nome, int *count){
-   FILE *src=fopen("../.checkpoint.dat", "r");
-   int i;
-
-   //the file does not exist
-   if(!src)
-    return 0;
-
-  //read name
-  fscanf(src, "%s", nome);
-
-  //the last game is ended
-  if(!strcmp(nome, "END"))
-    return 0;
-
-  //Read moves made
-  fscanf(src, "%d", count);
-
-  //read matrix
-  for(i=0;i<DIM*DIM;i++)
-    fscanf(src, "%d", &mat[i]);
-
-  //read position of blank
-  fscanf(src, "%d %d", &blank.i, &blank.j);
-
-  return 1;
- }
-
-
 
 
 //Leaderboard' function

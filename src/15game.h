@@ -43,6 +43,9 @@ void Shuffle();
 //New game
 void NewGame(int *count);
 
+//Save and exit
+void Quit(char *name, int count);
+
 
 
 
