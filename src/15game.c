@@ -92,12 +92,14 @@ void Convert(char *userSelection, Point *choice){
       choice->j = blank.j==DIM-1?DIM-1:blank.j+1;
     else if(userSelection[0]=='N')//New game
       choice->i = -2;
+    else if(userSelection[0]=='Q')//Quit
+      choice->i = -3;
   }
 }
 
 int Playable(Point choice){
 
-  //Shuffle test
+  //Shuffle, NewGame and Quit test
   if(choice.i<0)
     return 1;
 
