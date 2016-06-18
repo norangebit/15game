@@ -21,66 +21,69 @@
 #include <stdio_ext.h>
 
 int main(){
-  int count=0;
-  char *name=(char *)malloc(200*sizeof(char));
-  char userSelection[2];//capturing user input
-  Point choice;//Position of user choice
-  FILE *src=fopen("../.Leaderboard.dat", "r");
+    int count=0;
+    char *name=(char *)malloc(200*sizeof(char));
+    char userSelection[2];//capturing user input
+    Point choice;//Position of user choice
+    FILE *src=fopen("../.Leaderboard.dat", "r");//Leaderboard file
 
-  if(!src){
-    src=fopen("../.Leaderboard.dat", "w");
+    if(!src){
+        src=fopen("../.Leaderboard.dat", "w");
+        fclose(src);
+        src=fopen("../.Leaderboard.dat", "r");
+    }
+    ReadLeaderboard(src);
     fclose(src);
-    src=fopen("../.Leaderboard.dat", "r");
-  }
-  ReadLeaderboard(src);
-  fclose(src);
 
-  if(Restart(name, &count))
-    printf("Welcome back %s\n\n", name);
-  else{
-    printf("Insert your name: ");
-    scanf("%s", name);
-    name=(char *)realloc(name, (strlen(name)+1)*sizeof(char));
+    if(Restart(name, &count))
+        printf("Welcome back %s\n\n", name);
+    else{
+        printf("Insert your name: ");
+        scanf("%s", name);
+        name=(char *)realloc(name, (strlen(name)+1)*sizeof(char));
 
-    srand(time(NULL));
-    Genesis();
-  }
-
-  do{
-    Print();
+        srand(time(NULL));
+        Genesis();
+    }
 
     do{
-      printf("\nType the number you want to move(0 for shuffle): ");
-      scanf("%s", userSelection);
-      Convert(userSelection, &choice);
-    }while(!Playable(choice));
+        Print();
 
-    count++;
-    if(choice.i==-1)
-      Shuffle();
-    else if (choice.i==-2)
-      NewGame(&count);
-    else if (choice.i==-3)
-      Quit(name, count);
-    else
-      Replace(choice);
+        do{
+            printf("\nType the number you want to move(0 for shuffle): ");
+            scanf("%s", userSelection);
+            Convert(userSelection, &choice);
+        }while(!Playable(choice));
 
-    if(!(count%5))
-      SaveCheckpoint(name, count);
+        count++;
 
-  }while(!Win());
+        if(choice.i>=0)//Stanadard move
+            Replace(choice);
+        else//Special move
+            if(choice.i==-1)
+                Shuffle();
+            else if (choice.i==-2)
+                NewGame(&count);
+            else if (choice.i==-3)
+                Quit(name, count);
 
-  SaveCheckpoint(name, count);
 
-  printf("\n   You Win!\n");
-  printf("\nYou've completed the puzzle in %d moves.\n", count);
-  AddLeaderboard(name, count);
-  PrintLeaderboard();
+        if(!(count%5))
+            SaveCheckpoint(name, count);
 
-  src=fopen("../.Leaderboard.dat", "w");
-  SaveLeaderboard(src);
-  fclose(src);
+    }while(!Win());
 
-  __fpurge(stdin);
-  getchar();
+    SaveCheckpoint(name, count);
+
+    printf("\n   You Win!\n");
+    printf("\nYou've completed the puzzle in %d moves.\n", count);
+    AddLeaderboard(name, count);
+    PrintLeaderboard();
+
+    src=fopen("../.Leaderboard.dat", "w");
+    SaveLeaderboard(src);
+    fclose(src);
+
+    __fpurge(stdin);
+    getchar();
 }
