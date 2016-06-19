@@ -51,6 +51,12 @@ void Shuffle();
  //Save into file
  void SaveCheckpoint(char *nome, int count);
 
+ //New game
+ void NewGame(char *name, int *count);
+
+ //Save and exit
+ void Quit(char *name, int count);
+
 
 
 
