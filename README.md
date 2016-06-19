@@ -91,6 +91,11 @@ Simple C version of the famous logic puzzle.
   - Add autosave and restart
   - Now the game picks up where you left off
 
+- **Beta 2.1**
+
+  - Add function Quit(press 'Q')
+  - Add function NewGame(press 'N')
+
 ## License
 
 - This document, as all documentation is released under the terms of the license _Creative Commons_ [**BY-SA 3.0**](http://creativecommons.org/licenses/by-sa/3.0/it/deed.it).
