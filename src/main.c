@@ -63,7 +63,7 @@ int main(){
             if(choice.i==-1)
                 Shuffle();
             else if (choice.i==-2)
-                NewGame(&count);
+                NewGame(name, &count);
             else if (choice.i==-3)
                 Quit(name, count);
 

@@ -40,12 +40,6 @@ void Genesis();
 //Make between 20 and 50 random moves
 void Shuffle();
 
-//New game
-void NewGame(int *count);
-
-//Save and exit
-void Quit(char *name, int count);
-
 
 
 
@@ -56,6 +50,12 @@ void Quit(char *name, int count);
 
  //Save into file
  void SaveCheckpoint(char *nome, int count);
+
+ //New game
+ void NewGame(char *name, int *count);
+
+ //Save and exit
+ void Quit(char *name, int count);
 
 
 

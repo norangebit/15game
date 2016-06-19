@@ -23,6 +23,7 @@
 #include <time.h>
 #include <ctype.h>
 #define DIM 4
+#define SQDIM DIM*DIM
 
 typedef struct Score{
     char *name;
@@ -35,21 +36,21 @@ typedef struct Point{
     int j;//Column
 }Point;
 
-int mat[DIM*DIM];//Matrix of the game
+int mat[SQDIM];//Matrix of the game
 Point blank;//Position of blank
 Score *HEAD=NULL;//Head of Leaderboard
 
 
 int Win(){
     int i, sorted=1;
-    for(i=0;i<DIM*DIM-1 && sorted;i++){
+    for(i=0;i<SQDIM-1 && sorted;i++){
         if(mat[i]>mat[i+1])
         sorted=0;
     }
     return(sorted);
 }
 
-//Checkpoint's function
+
 void SaveCheckpoint(char *nome, int count){
     int i;
     FILE *dest=fopen("../.checkpoint.dat", "w");
@@ -64,9 +65,9 @@ void SaveCheckpoint(char *nome, int count){
         fprintf(dest, "%d\n", count);
 
     //Print matrix
-    for(i=0;i<DIM*DIM-1;i++)
+    for(i=0;i<SQDIM-1;i++)
         fprintf(dest, "%d ", mat[i]);
-    fprintf(dest, "%d\n", mat[DIM*DIM-1]);
+    fprintf(dest, "%d\n", mat[SQDIM-1]);
 
     //Print blank position
     fprintf(dest, "%d %d", blank.i, blank.j);
@@ -93,7 +94,7 @@ void SaveCheckpoint(char *nome, int count){
     fscanf(src, "%d", count);
 
     //read matrix
-    for(i=0;i<DIM*DIM;i++)
+    for(i=0;i<SQDIM;i++)
         fscanf(src, "%d", &mat[i]);
 
     //read position of blank
@@ -104,11 +105,11 @@ void SaveCheckpoint(char *nome, int count){
 
 void Print(){
     int i, j;
-    for(i=0;i<DIM*DIM;i++){
+    for(i=0;i<SQDIM;i++){
         if(!(i%DIM))
             putchar('\n');
 
-        if((j=mat[i])==DIM*DIM)
+        if((j=mat[i])==SQDIM)
             printf("   ");
         else
             printf("%3d", j);
@@ -125,7 +126,7 @@ void Convert(char *userSelection, Point *choice){
         if(!intSelection)//For shuffle
             choice->i=-1;
         else{
-            for(k=0;k<DIM*DIM;k++)
+            for(k=0;k<SQDIM;k++)
                 if(mat[k]==intSelection){
                     choice->i=k/DIM;
                     choice->j=k%DIM;
@@ -170,7 +171,7 @@ void Replace(Point choice){
 
     //Swap position of choice and blank
     mat[blank.i*DIM + blank.j]=mat[choice.i*DIM + choice.j];
-    mat[choice.i*DIM + choice.j]=DIM*DIM;
+    mat[choice.i*DIM + choice.j]=SQDIM;
     blank=choice;
 }
 
@@ -203,8 +204,8 @@ void Shuffle(){
 int ParityChecker(){
     int k, z, parity=0;
 
-    for(k=0;k<DIM*DIM-1;k++)
-        for(z=k+1;z<DIM*DIM;z++)
+    for(k=0;k<SQDIM-1;k++)
+        for(z=k+1;z<SQDIM;z++)
             if(mat[k]>mat[z])
                 parity++;
 
@@ -221,31 +222,30 @@ void Swap(int *a, int *b){
 void Genesis(){
     int k, z, ok;
 
-    for(k=0;k<DIM*DIM;k++){
+    for(k=0;k<SQDIM;k++){
         do{
             ok=1;
-            mat[k]=rand()%DIM*DIM+1;
-
+            mat[k]=rand()%(SQDIM)+1;
             //Check uniqueness
             for(z=0;z<k && ok==1;z++)
                 if(mat[k]==mat[z])
                     ok=0;
 
         }while(!ok);
-
         //Assigns the position of the blank
-        if(mat[k]==DIM*DIM){
+        if(mat[k]==SQDIM){
             blank.i=k/DIM;
             blank.j=k%DIM;
         }
     }
     while(ParityChecker())
-        Swap(&mat[rand()%DIM*DIM], &mat[rand()%DIM*DIM]);
+        Swap(&mat[rand()%SQDIM], &mat[rand()%SQDIM]);
 }
 
-void NewGame(int *count){
+void NewGame(char *name, int *count){
     Genesis();
     *count=0;
+    SaveCheckpoint(name, *count);
 }
 
 void Quit(char *name, int count){
